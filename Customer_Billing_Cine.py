@@ -35,15 +35,24 @@ class Cliente(tk.Tk):
         ABC5.grid(row=0, column=0, sticky='w')
         ABC6 = tk.Frame(ABC4, bd=14, width=370, height=120, padx=10, bg='cadet blue', relief=tk.RIDGE)
         ABC6.grid(row=1, column=0, columnspan=4, sticky='w')
-
         # =============================================================================================
-        # Hora y fecha
+        # Fecha, titulo y hora
         # =============================================================================================
         fecha = tk.StringVar()
         fecha.set(time.strftime("%d/%m/%Y"))
         self.lbl_fecha=tk.Label(ABC1, textvariable=fecha, font=('arial', 30, 'bold'), pady=9, bd=5, bg='cadet blue', fg="cornsilk").grid(row=0, column=0)
         self.lbl_titulo=tk.Label(ABC1, text='          Sistema de Facturacion de Clientes\t', font=('arial', 30, 'bold'), pady=9, bd=5, bg='cadet blue', fg="cornsilk", justify=tk.CENTER).grid(row=0, column=1)
         self.lbl_hora=tk.Label(ABC1, textvariable=self.hora, font=('arial', 30, 'bold'), pady=9, bd=5, bg='cadet blue', fg="cornsilk").grid(row=0, column=2)
+        # =============================================================================================
+        # Ticket
+        # =============================================================================================
+        self.ticket = tk.Text(ABC5, height=19, width=43, bd=10, font=('arial', 9, 'bold')).grid(row=0, column=0)
+        # =============================================================================================
+        # Botones Total, limpiar, salir
+        # =============================================================================================
+        self.boton_Total = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='powder blue', text="Total").grid(row=0, column=0)
+        self.boton_limpiar = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='powder blue', text="Limpiar").grid(row=0, column=1)
+        self.boton_salir = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='powder blue', text="Salir").grid(row=0, column=2)
 
     def actualizar_hora(self):
         self.hora.set(time.strftime("%H:%M:%S"))
