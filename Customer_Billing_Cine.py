@@ -9,7 +9,7 @@ import time
 class Cliente(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Sistema de cuenta de clientes")
+        self.title("Sistema de Facturación de clientes")
         self.geometry("1350x750")
         self.iconbitmap('Cine.ico')
         self.config(background="powder blue")
@@ -24,6 +24,8 @@ class Cliente(tk.Tk):
         self.acompanamiento = tk.StringVar()
         self.b_palomitas = tk.IntVar()
         self.b_refresco = tk.IntVar()
+        self.b_acompanamiento = tk.IntVar()
+        self.b_queso = tk.IntVar()
         self._creacion_componentes()
         self.actualizar_hora()
 
@@ -38,13 +40,21 @@ class Cliente(tk.Tk):
         ABC2 = tk.Frame(ABC, bd=14, width=450, height=488, padx=10, bg='cadet blue', relief=tk.RIDGE)
         ABC2.grid(row=1, column=0, sticky='N')
         ABC3 = tk.Frame(ABC, bd=14, width=450, height=488, padx=10, bg='powder blue', relief=tk.RIDGE)
-        ABC3.grid(row=1, column=1, sticky='w')
+        ABC3.grid(row=1, column=1, sticky='N')
         ABC4 = tk.Frame(ABC, bd=14, width=460, height=488, padx=10, bg='cadet blue', relief=tk.RIDGE)
         ABC4.grid(row=1, column=2, sticky='w')
         ABC5 = tk.Frame(ABC4, bd=14, width=370, height=340, padx=10, bg='cadet blue', relief=tk.RIDGE)
         ABC5.grid(row=0, column=0, sticky='w')
         ABC6 = tk.Frame(ABC4, bd=14, width=370, height=120, padx=10, bg='cadet blue', relief=tk.RIDGE)
         ABC6.grid(row=1, column=0, columnspan=4, sticky='w')
+        # =============================================================================================
+        # Fecha, titulo y hora
+        # =============================================================================================
+        fecha = tk.StringVar()
+        fecha.set(time.strftime("%d/%m/%Y"))
+        self.lbl_fecha=tk.Label(ABC1, textvariable=fecha, font=('arial', 30, 'bold'), pady=9, bd=5, bg='cadet blue', fg="cornsilk").grid(row=0, column=0)
+        self.lbl_titulo=tk.Label(ABC1, text='          Sistema de Facturación de Clientes\t', font=('arial', 30, 'bold'), pady=9, bd=5, bg='cadet blue', fg="cornsilk", justify=tk.CENTER).grid(row=0, column=1)
+        self.lbl_hora=tk.Label(ABC1, textvariable=self.hora, font=('arial', 30, 'bold'), pady=9, bd=5, bg='cadet blue', fg="cornsilk").grid(row=0, column=2)
         # =============================================================================================
         # Cliente, Pelicula y Sala
         # =============================================================================================
@@ -63,13 +73,34 @@ class Cliente(tk.Tk):
         self.caja_sala.current(0)
         self.caja_sala.grid(row=2, column=1, pady=3)
         # =============================================================================================
-        # Fecha, titulo y hora
+        # Palomitas, Refresco y acompanamiento
         # =============================================================================================
-        fecha = tk.StringVar()
-        fecha.set(time.strftime("%d/%m/%Y"))
-        self.lbl_fecha=tk.Label(ABC1, textvariable=fecha, font=('arial', 30, 'bold'), pady=9, bd=5, bg='cadet blue', fg="cornsilk").grid(row=0, column=0)
-        self.lbl_titulo=tk.Label(ABC1, text='          Sistema de Facturación de Clientes\t', font=('arial', 30, 'bold'), pady=9, bd=5, bg='cadet blue', fg="cornsilk", justify=tk.CENTER).grid(row=0, column=1)
-        self.lbl_hora=tk.Label(ABC1, textvariable=self.hora, font=('arial', 30, 'bold'), pady=9, bd=5, bg='cadet blue', fg="cornsilk").grid(row=0, column=2)
+        self.lbl_palomitas = tk.Checkbutton(ABC3, text='Palomitas', variable=self.b_palomitas, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='powder blue').grid(row=0, sticky='w')
+        self.caja_palomitas = ttk.Combobox(ABC3, textvariable=self.palomitas, state='disabled', font=('arial', 12, 'bold'), width=30)
+        self.caja_palomitas['value'] = ('', 'MANTEQUILLA', 'NATURALES', 'QUESO', 'ACARAMELADAS', 'VALENTINA', 'BUFALO')
+        self.caja_palomitas.current(0)
+        self.caja_palomitas.grid(row=0, column=1, pady=3)
+        self.caja_tam_palomitas = ttk.Combobox(ABC3, textvariable=self.palomitas, state='disabled', font=('arial', 12, 'bold'), width=30)
+        self.caja_tam_palomitas['value'] = ('', 'CHICA', 'MEDIANA', 'GRANDE', 'PARA LLEVAR')
+        self.caja_tam_palomitas.current(0)
+        self.caja_tam_palomitas.grid(row=2, column=1, pady=3)
+
+        self.lbl_refresco = tk.Checkbutton(ABC3, text='Refresco', variable=self.b_refresco, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='powder blue').grid(row=3, sticky='w')
+        self.caja_refresco = ttk.Combobox(ABC3, textvariable=self.refresco, state='disabled', font=('arial', 12, 'bold'), width=30)
+        self.caja_refresco['value'] = ('', 'COCA COLA', 'COCA COLA S/A', 'SPRITE', 'MANZANA', 'FANTA', 'FUZE TEA')
+        self.caja_refresco.current(0)
+        self.caja_refresco.grid(row=3, column=1, pady=3)
+        self.caja_tam_refresco = ttk.Combobox(ABC3, textvariable=self.refresco, state='disabled', font=('arial', 12, 'bold'), width=30)
+        self.caja_tam_refresco['value'] = ('', 'CHICO', 'MEDIANO', 'GRANDE', 'JUMBO')
+        self.caja_tam_refresco.current(0)
+        self.caja_tam_refresco.grid(row=4, column=1, pady=3)
+
+        self.lbl_acompanamiento = tk.Checkbutton(ABC3, text='Acompañamiento', variable=self.b_acompanamiento, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='powder blue').grid(row=5, sticky='w')
+        self.caja_acompanamiento = ttk.Combobox(ABC3, textvariable=self.acompanamiento, state='disabled', font=('arial', 12, 'bold'), width=30)
+        self.caja_acompanamiento['value'] = ('', 'NACHOS', 'HOT-DOG', 'HOT-DOG JUMBO', 'CHOCOLATE', 'HELADO', 'DULCES')
+        self.caja_acompanamiento.current(0)
+        self.caja_acompanamiento.grid(row=5, column=1, pady=3)
+        self.lbl_queso = tk.Checkbutton(ABC3, text='Queso extra', variable=self.b_queso, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='powder blue', state='disabled').grid(row=6, column=1, sticky='w')
         # =============================================================================================
         # Ticket
         # =============================================================================================
