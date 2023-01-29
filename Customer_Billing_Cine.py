@@ -59,7 +59,8 @@ class Cliente(tk.Tk):
         # Cliente, Pelicula y Sala
         # =============================================================================================
         self.lbl_cliente = tk.Label(ABC2, font=('arial', 12, 'bold'), text="Nombre Cliente:", padx=2, fg="black", bg='white').grid(row=0, column=0, sticky='w')
-        self.txt_cliente = tk.Entry(ABC2, font=('arial', 12, 'bold'), textvariable= self.nombre, width=30, relief='solid').grid(row=0, column=1, pady=3)
+        self.txt_cliente = tk.Entry(ABC2, font=('arial', 12, 'bold'), textvariable= self.nombre, width=30, relief='solid')
+        self.txt_cliente.grid(row=0, column=1, pady=3)
 
         self.lbl_pelicula = tk.Label(ABC2, font=('arial', 12, 'bold'), text="Pelicula:", padx=2, fg="black", bg='white').grid(row=1, column=0, sticky='w')
         self.caja_pelicula = ttk.Combobox(ABC2, textvariable=self.pelicula, state='readonly', font=('arial', 12, 'bold'), width=28)
@@ -75,7 +76,8 @@ class Cliente(tk.Tk):
         # =============================================================================================
         # Palomitas, Refresco y acompanamiento
         # =============================================================================================
-        self.lbl_palomitas = tk.Checkbutton(ABC3, text='Palomitas', variable=self.b_palomitas, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Palomitas).grid(row=0, sticky='w')
+        self.lbl_palomitas = tk.Checkbutton(ABC3, text='Palomitas', variable=self.b_palomitas, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Palomitas)
+        self.lbl_palomitas.grid(row=0, sticky='w')
         self.caja_palomitas = ttk.Combobox(ABC3, textvariable=self.palomitas, state='disabled', font=('arial', 12, 'bold'), width=30)
         self.caja_palomitas['value'] = ('', 'MANTEQUILLA', 'NATURALES', 'QUESO', 'ACARAMELADAS', 'VALENTINA', 'BUFALO')
         self.caja_palomitas.current(0)
@@ -111,7 +113,7 @@ class Cliente(tk.Tk):
         # Botones Total, limpiar, salir
         # =============================================================================================
         self.boton_Total = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Total", command=self._Total).grid(row=0, column=0)
-        self.boton_limpiar = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Limpiar").grid(row=0, column=1)
+        self.boton_limpiar = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Limpiar", command=self._Limpiar).grid(row=0, column=1)
         self.boton_salir = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Salir", command=self._Exit).grid(row=0, column=2)
 
     def actualizar_hora(self):
@@ -144,6 +146,7 @@ class Cliente(tk.Tk):
         else:
             self.caja_acompanamiento.configure(state='disabled')
             self.caja_acompanamiento.current(0)
+            self.b_queso.set(0)
 
     def _Queso(self):
         self.after(100, self._Queso)
@@ -161,6 +164,7 @@ class Cliente(tk.Tk):
         self.ticket.insert(
             tk.END,
             f'''Cuenta de {self.nombre.get()}
+
 Pelicula: {self.pelicula.get()}
       Sala: {self.sala.get()}
 ''')
@@ -234,6 +238,31 @@ Pelicula: {self.pelicula.get()}
                 self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: $25.00\n')
             else:
                 self.ticket.insert(tk.END, f'Acompañamiento: N/A\n')
+        # =============================================================================================
+        # Costo Total
+        # =============================================================================================
+        self.ticket.insert(tk.END, f'\n\n\nTotal a Pagar: ${self.total:.2f}')
+
+    def _Limpiar(self):
+        self.ticket.delete(1.0, tk.END)
+        self.total = 0.00
+        self.txt_cliente.delete(0, tk.END)
+        self.caja_pelicula.current(0)
+        self.caja_sala.current(0)
+        self.caja_palomitas.configure(state='disabled')
+        self.caja_palomitas.current(0)
+        self.caja_tam_palomitas.configure(state='disabled')
+        self.caja_tam_palomitas.current(0)
+        self.caja_refresco.configure(state='disabled')
+        self.caja_refresco.current(0)
+        self.caja_tam_refresco.configure(state='disabled')
+        self.caja_tam_refresco.current(0)
+        self.caja_acompanamiento.configure(state='disabled')
+        self.caja_acompanamiento.current(0)
+        self.b_palomitas.set(0)
+        self.b_refresco.set(0)
+        self.b_acompanamiento.set(0)
+        self.b_queso.set(0)
 
     def _Exit(self):
         Exit = messagebox.askyesno("Sistema de Facturación de clientes", "Confirma que quiere salir")
