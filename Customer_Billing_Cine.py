@@ -23,8 +23,11 @@ class Cliente(tk.Tk):
         self.b_palomitas = tk.IntVar()
         self.b_refresco = tk.IntVar()
         self.b_acompanamiento = tk.IntVar()
+        self.b_queso = tk.IntVar()
+        self.total = 0
         self._creacion_componentes()
         self.actualizar_hora()
+        self._Queso()
 
     def _creacion_componentes(self):
         # =============================================================================================
@@ -94,9 +97,11 @@ class Cliente(tk.Tk):
 
         self.lbl_acompanamiento = tk.Checkbutton(ABC3, text='Acompañamiento', variable=self.b_acompanamiento, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Acompanamiento).grid(row=5, sticky='w')
         self.caja_acompanamiento = ttk.Combobox(ABC3, textvariable=self.acompanamiento, state='disabled', font=('arial', 12, 'bold'), width=30)
-        self.caja_acompanamiento['value'] = ('', 'NACHOS', 'NACHOS CON QUESO EXTRA', 'HOT-DOG', 'HOT-DOG JUMBO', 'CHOCOLATE', 'HELADO', 'DULCES')
+        self.caja_acompanamiento['value'] = ('', 'NACHOS', 'HOT-DOG', 'HOT-DOG JUMBO', 'CHOCOLATE', 'HELADO', 'DULCES')
         self.caja_acompanamiento.current(0)
         self.caja_acompanamiento.grid(row=5, column=1, pady=3)
+        self.lbl_queso = tk.Checkbutton(ABC3, text='Queso extra', variable=self.b_queso, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', state='disabled', command=self._Queso)
+        self.lbl_queso.grid(row=6, column=1, sticky='w')
         # =============================================================================================
         # Ticket
         # =============================================================================================
@@ -140,13 +145,95 @@ class Cliente(tk.Tk):
             self.caja_acompanamiento.configure(state='disabled')
             self.caja_acompanamiento.current(0)
 
+    def _Queso(self):
+        self.after(100, self._Queso)
+        if self.acompanamiento.get() == "NACHOS":
+            self.lbl_queso.configure(state='normal')
+        else:
+            self.lbl_queso.configure(state='disabled')
+
     def _Total(self):
+        self.ticket.delete(1.0, tk.END)
+        self.total = 0.00
+        # =============================================================================================
+        # Costo Pelicula
+        # =============================================================================================
         self.ticket.insert(
             tk.END,
             f'''Cuenta de {self.nombre.get()}
 Pelicula: {self.pelicula.get()}
-Sala: {self.sala.get()}
-        ''')
+      Sala: {self.sala.get()}
+''')
+        if self.sala.get() == 'SENCILLA':
+            self.total += 50.00
+            self.ticket.insert(tk.END, f'      Costo boleto: ${self.total:.2f}\n')
+        else:
+            self.total += 90.00
+            self.ticket.insert(tk.END, f'      Costo boleto: ${self.total:.2f}\n')
+        # =============================================================================================
+        # Costo Palomitas
+        # =============================================================================================
+        if self.b_palomitas:
+            if self.tam_palomitas.get() == 'CHICA':
+                self.total += 30
+                self.ticket.insert(tk.END, f'Palomitas:\n      Sabor: {self.palomitas.get()}\n      Tamaño: {self.tam_palomitas.get()}\n      Costo: $30.00\n')
+            elif self.tam_palomitas.get() == 'MEDIANA':
+                self.total += 40
+                self.ticket.insert(tk.END, f'Palomitas:\n      Sabor: {self.palomitas.get()}\n      Tamaño: {self.tam_palomitas.get()}\n      Costo: $40.00\n')
+            elif self.tam_palomitas.get() == 'GRANDE':
+                self.total += 50
+                self.ticket.insert(tk.END, f'Palomitas:\n      Sabor: {self.palomitas.get()}\n      Tamaño: {self.tam_palomitas.get()}\n      Costo: $50.00\n')
+            elif self.tam_palomitas.get() == 'PARA LLEVAR':
+                self.total += 60
+                self.ticket.insert(tk.END, f'Palomitas:\n      Sabor: {self.palomitas.get()}\n      Tamaño: {self.tam_palomitas.get()}\n      Costo: $60.00\n')
+            else:
+                self.ticket.insert(tk.END, f'Palomitas: N/A\n')
+        # =============================================================================================
+        # Costo Refresco
+        # =============================================================================================
+        if self.b_refresco:
+            if self.tam_refresco.get() == 'CHICO':
+                self.total += 30
+                self.ticket.insert(tk.END, f'Refresco:\n      Sabor: {self.refresco.get()}\n      Tamaño: {self.tam_refresco.get()}\n      Costo: $30.00\n')
+            elif self.tam_refresco.get() == 'MEDIANO':
+                self.total += 40
+                self.ticket.insert(tk.END, f'Refresco:\n      Sabor: {self.refresco.get()}\n      Tamaño: {self.tam_refresco.get()}\n      Costo: $40.00\n')
+            elif self.tam_refresco.get() == 'GRANDE':
+                self.total += 50
+                self.ticket.insert(tk.END, f'Refresco:\n      Sabor: {self.refresco.get()}\n      Tamaño: {self.tam_refresco.get()}\n      Costo: $50.00\n')
+            elif self.tam_refresco.get() == 'JUMBO':
+                self.total += 60
+                self.ticket.insert(tk.END, f'Refresco:\n      Sabor: {self.refresco.get()}\n      Tamaño: {self.tam_refresco.get()}\n      Costo: $60.00\n')
+            else:
+                self.ticket.insert(tk.END, f'Refresco: N/A\n')
+        # =============================================================================================
+        # Costo Acompanamientos
+        # =============================================================================================
+        if self.b_acompanamiento:
+            if self.acompanamiento.get() == 'NACHOS':
+                if self.b_queso.get():
+                    self.total += 50
+                    self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Queso extra: 5.00\n      Costo: $50.00\n')
+                else:
+                    self.total += 45
+                    self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: $45.00\n')
+            elif self.acompanamiento.get() == 'HOT-DOG':
+                self.total += 45
+                self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: $45.00\n')
+            elif self.acompanamiento.get() == 'HOT-DOG JUMBO':
+                self.total += 70
+                self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: $70.00\n')
+            elif self.acompanamiento.get() == 'CHOCOLATE':
+                self.total += 30
+                self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: $30.00\n')
+            elif self.acompanamiento.get() == 'HELADO':
+                self.total += 45
+                self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: $45.00\n')
+            elif self.acompanamiento.get() == 'DULCES':
+                self.total += 25
+                self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: $25.00\n')
+            else:
+                self.ticket.insert(tk.END, f'Acompañamiento: N/A\n')
 
     def _Exit(self):
         Exit = messagebox.askyesno("Sistema de Facturación de clientes", "Confirma que quiere salir")
