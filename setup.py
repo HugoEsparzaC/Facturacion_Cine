@@ -13,3 +13,5 @@ setup(
     base = 'Win32GUI'
     )]
 )
+
+# python setup.py bdist_msi
