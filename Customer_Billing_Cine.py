@@ -107,7 +107,7 @@ class Cliente(tk.Tk):
         # =============================================================================================
         # Ticket
         # =============================================================================================
-        self.ticket = tk.Text(ABC5, height=25, width=43, bd=10, font=('arial', 9, 'bold'), wrap=tk.WORD)
+        self.ticket = tk.Text(ABC5, height=25, width=43, bd=10, state = 'disabled', font=('arial', 9, 'bold'), wrap=tk.WORD)
         self.ticket.grid(row=0, column=0)
         # =============================================================================================
         # Botones Total, limpiar, salir
@@ -156,6 +156,7 @@ class Cliente(tk.Tk):
             self.lbl_queso.configure(state='disabled')
 
     def _Total(self):
+        self.ticket.configure(state='normal')
         self.ticket.delete(1.0, tk.END)
         self.total = 0.00
         # =============================================================================================
@@ -242,8 +243,10 @@ Pelicula: {self.pelicula.get()}
         # Costo Total
         # =============================================================================================
         self.ticket.insert(tk.END, f'\n\n\nTotal a Pagar: ${self.total:.2f}')
+        self.ticket.configure(state='disabled')
 
     def _Limpiar(self):
+        self.ticket.configure(state='normal')
         self.ticket.delete(1.0, tk.END)
         self.total = 0.00
         self.txt_cliente.delete(0, tk.END)
@@ -263,6 +266,7 @@ Pelicula: {self.pelicula.get()}
         self.b_refresco.set(0)
         self.b_acompanamiento.set(0)
         self.b_queso.set(0)
+        self.ticket.configure(state='disabled')
 
     def _Exit(self):
         Exit = messagebox.askyesno("Sistema de Facturación de clientes", "Confirma que quiere salir")
