@@ -207,6 +207,9 @@ class Cliente(tk.Tk):
             aux = float(self.num_boletos.get()) * 90.00
             self.temp = self.temp + f'Costo boletos: ${aux:.2f}\n'
         self.ticket.insert(tk.END, f'{self.temp}\nTotal ${self.total:.2f}')
+        self.caja_pelicula.current(0)
+        self.caja_sala.current(0)
+        self.txt_num_boletos.delete(0, tk.END)
         self.ticket.configure(state='disabled')
 
     def _Agregar_Comida(self):
@@ -266,6 +269,19 @@ class Cliente(tk.Tk):
                 aux = float(self.num_acompanamientos.get()) * 25
                 self.temp = self.temp + f'{self.num_acompanamientos.get()} Acompañamientos:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: ${aux:.2f}\n'
         self.ticket.insert(tk.END, f'{self.temp}\nTotal ${self.total:.2f}')
+        self.caja_palomitas.configure(state='disabled')
+        self.caja_palomitas.current(0)
+        self.caja_tam_palomitas.configure(state='disabled')
+        self.caja_tam_palomitas.current(0)
+        self.b_palomitas.set(0)
+        self.txt_num_palomitas.delete(0, tk.END)
+        self.txt_num_palomitas.configure(state='disabled')
+        self.caja_acompanamiento.configure(state='disabled')
+        self.caja_acompanamiento.current(0)
+        self.b_acompanamiento.set(0)
+        self.b_queso.set(0)
+        self.txt_num_acompanamiento.delete(0, tk.END)
+        self.txt_num_acompanamiento.configure(state='disabled')
         self.ticket.configure(state='disabled')
 
     def _Agregar_Refresco(self):
@@ -292,6 +308,13 @@ class Cliente(tk.Tk):
                 aux = float(self.num_refrescos.get()) * 60
                 self.temp = self.temp + f'{self.num_refrescos.get()} Refrescos:\nSabor: {self.refresco.get()}\nTamaño: {self.tam_refresco.get()}\nCosto: ${aux:.2f}\n'
         self.ticket.insert(tk.END, f'{self.temp}\nTotal ${self.total:.2f}')
+        self.caja_refresco.configure(state='disabled')
+        self.caja_refresco.current(0)
+        self.caja_tam_refresco.configure(state='disabled')
+        self.caja_tam_refresco.current(0)
+        self.b_refresco.set(0)
+        self.txt_num_refrescos.delete(0, tk.END)
+        self.txt_num_refrescos.configure(state='disabled')
         self.ticket.configure(state='disabled')
 
     def _Limpiar(self):
@@ -299,29 +322,34 @@ class Cliente(tk.Tk):
         self.ticket.delete(1.0, tk.END)
         self.temp = ''
         self.total = 0.00
+        # Peliculas
         self.caja_pelicula.current(0)
         self.caja_sala.current(0)
+        self.txt_num_boletos.delete(0, tk.END)
+        # Palomitas
         self.caja_palomitas.configure(state='disabled')
         self.caja_palomitas.current(0)
         self.caja_tam_palomitas.configure(state='disabled')
         self.caja_tam_palomitas.current(0)
+        self.b_palomitas.set(0)
+        self.txt_num_palomitas.delete(0, tk.END)
+        self.txt_num_palomitas.configure(state='disabled')
+        # Refresco
         self.caja_refresco.configure(state='disabled')
         self.caja_refresco.current(0)
         self.caja_tam_refresco.configure(state='disabled')
         self.caja_tam_refresco.current(0)
+        self.b_refresco.set(0)
+        self.txt_num_refrescos.delete(0, tk.END)
+        self.txt_num_refrescos.configure(state='disabled')
+        # Acompanamiento
         self.caja_acompanamiento.configure(state='disabled')
         self.caja_acompanamiento.current(0)
-        self.b_palomitas.set(0)
-        self.b_refresco.set(0)
         self.b_acompanamiento.set(0)
         self.b_queso.set(0)
         self.txt_num_acompanamiento.delete(0, tk.END)
         self.txt_num_acompanamiento.configure(state='disabled')
-        self.txt_num_refrescos.delete(0, tk.END)
-        self.txt_num_refrescos.configure(state='disabled')
-        self.txt_num_palomitas.delete(0, tk.END)
-        self.txt_num_palomitas.configure(state='disabled')
-        self.txt_num_boletos.delete(0, tk.END)
+        # Ticket
         self.ticket.configure(state='disabled')
 
     def _Exit(self):
