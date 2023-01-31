@@ -86,7 +86,7 @@ class Cliente(tk.Tk):
         self.lbl_Comida = tk.Label(ABC2, font=('arial', 16, 'bold'), text="Comida", padx=2, fg="black", bg='white').grid(row=5, column=0, sticky='w')
         self.lbl_palomitas = tk.Checkbutton(ABC2, text='Palomitas', variable=self.b_palomitas, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Palomitas)
         self.lbl_palomitas.grid(row=6, sticky='w')
-        self.txt_num_palomitas = tk.Entry(ABC2, font=('arial', 12, 'bold'), textvariable= self.num_palomitas, width=31, relief='solid')
+        self.txt_num_palomitas = tk.Entry(ABC2, font=('arial', 12, 'bold'), state='disabled', textvariable= self.num_palomitas, width=31, relief='solid')
         self.txt_num_palomitas.grid(row=6, column=1, pady=3)
         self.caja_palomitas = ttk.Combobox(ABC2, textvariable=self.palomitas, state='disabled', font=('arial', 12, 'bold'), width=29)
         self.caja_palomitas['value'] = ('', 'MANTEQUILLA', 'NATURALES', 'QUESO', 'ACARAMELADAS', 'VALENTINA', 'BUFALO')
@@ -98,7 +98,7 @@ class Cliente(tk.Tk):
         self.caja_tam_palomitas.grid(row=8, column=1, pady=3)
 
         self.lbl_acompanamiento = tk.Checkbutton(ABC2, text='Acompañamiento', variable=self.b_acompanamiento, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Acompanamiento).grid(row=9, sticky='w')
-        self.txt_num_acompanamiento = tk.Entry(ABC2, font=('arial', 12, 'bold'), textvariable= self.num_acompanamientos, width=31, relief='solid')
+        self.txt_num_acompanamiento = tk.Entry(ABC2, font=('arial', 12, 'bold'), state='disabled', textvariable= self.num_acompanamientos, width=31, relief='solid')
         self.txt_num_acompanamiento.grid(row=9, column=1, pady=3)
         
         self.caja_acompanamiento = ttk.Combobox(ABC2, textvariable=self.acompanamiento, state='disabled', font=('arial', 12, 'bold'), width=29)
@@ -115,7 +115,7 @@ class Cliente(tk.Tk):
 
 
         self.lbl_refresco = tk.Checkbutton(ABC2, text='Refresco', variable=self.b_refresco, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Refresco).grid(row=13, sticky='w')
-        self.txt_num_refrescos = tk.Entry(ABC2, font=('arial', 12, 'bold'), textvariable= self.num_refrescos, width=31, relief='solid')
+        self.txt_num_refrescos = tk.Entry(ABC2, font=('arial', 12, 'bold'), state='disabled', textvariable= self.num_refrescos, width=31, relief='solid')
         self.txt_num_refrescos.grid(row=13, column=1, pady=3)
 
         self.caja_refresco = ttk.Combobox(ABC2, textvariable=self.refresco, state='disabled', font=('arial', 12, 'bold'), width=29)
@@ -139,7 +139,7 @@ class Cliente(tk.Tk):
         # =============================================================================================
         # Botones Total, limpiar, agregar pedido
         # =============================================================================================
-        self.boton_Total = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Total", command=self._Total).grid(row=0, column=0)
+        self.boton_Total = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Pagar", command=self._Total).grid(row=0, column=0)
         self.boton_limpiar = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Cancelar", command=self._Limpiar).grid(row=0, column=1)
         self.boton_salir = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Salir", command=self._Exit).grid(row=0, column=2)
 
@@ -151,29 +151,38 @@ class Cliente(tk.Tk):
         if self.b_palomitas.get() == 1:
             self.caja_palomitas.configure(state='readonly')
             self.caja_tam_palomitas.configure(state='readonly')
+            self.txt_num_palomitas.configure(state='normal')
         else:
             self.caja_palomitas.configure(state='disabled')
             self.caja_palomitas.current(0)
             self.caja_tam_palomitas.configure(state='disabled')
             self.caja_tam_palomitas.current(0)
+            self.txt_num_palomitas.delete(0, tk.END)
+            self.txt_num_palomitas.configure(state='disabled')
 
     def _Refresco(self):
         if self.b_refresco.get() == 1:
             self.caja_refresco.configure(state='readonly')
             self.caja_tam_refresco.configure(state='readonly')
+            self.txt_num_refrescos.configure(state='normal')
         else:
             self.caja_refresco.configure(state='disabled')
             self.caja_refresco.current(0)
             self.caja_tam_refresco.configure(state='disabled')
             self.caja_tam_refresco.current(0)
+            self.txt_num_refrescos.delete(0, tk.END)
+            self.txt_num_refrescos.configure(state='disabled')
 
     def _Acompanamiento(self):
         if self.b_acompanamiento.get() == 1:
             self.caja_acompanamiento.configure(state='readonly')
+            self.txt_num_acompanamiento.configure(state='normal')
         else:
             self.caja_acompanamiento.configure(state='disabled')
             self.caja_acompanamiento.current(0)
             self.b_queso.set(0)
+            self.txt_num_acompanamiento.delete(0, tk.END)
+            self.txt_num_acompanamiento.configure(state='disabled')
 
     def _Queso(self):
         self.after(100, self._Queso)
@@ -259,9 +268,36 @@ class Cliente(tk.Tk):
         self.ticket.insert(tk.END, f'{self.temp}\nTotal ${self.total:.2f}')
         self.ticket.configure(state='disabled')
 
+    def _Agregar_Refresco(self):
+        self.ticket.configure(state='normal')
+        self.ticket.delete(1.0, tk.END)
+        # =============================================================================================
+        # Costo Refresco
+        # =============================================================================================
+        if self.b_refresco:
+            if self.tam_refresco.get() == 'CHICO':
+                self.total += float(self.num_refrescos.get()) * 30
+                aux = float(self.num_refrescos.get()) * 30
+                self.temp = self.temp + f'{self.num_refrescos.get()} Refrescos:\nSabor: {self.refresco.get()}\nTamaño: {self.tam_refresco.get()}\nCosto: ${aux:.2f}\n'
+            elif self.tam_refresco.get() == 'MEDIANO':
+                self.total += float(self.num_refrescos.get()) * 40
+                aux = float(self.num_refrescos.get()) * 40
+                self.temp = self.temp + f'{self.num_refrescos.get()} Refrescos:\nSabor: {self.refresco.get()}\nTamaño: {self.tam_refresco.get()}\nCosto: ${aux:.2f}\n'
+            elif self.tam_refresco.get() == 'GRANDE':
+                self.total += float(self.num_refrescos.get()) * 50
+                aux = float(self.num_refrescos.get()) * 50
+                self.temp = self.temp + f'{self.num_refrescos.get()} Refrescos:\nSabor: {self.refresco.get()}\nTamaño: {self.tam_refresco.get()}\nCosto: ${aux:.2f}\n'
+            elif self.tam_refresco.get() == 'JUMBO':
+                self.total += float(self.num_refrescos.get()) * 60
+                aux = float(self.num_refrescos.get()) * 60
+                self.temp = self.temp + f'{self.num_refrescos.get()} Refrescos:\nSabor: {self.refresco.get()}\nTamaño: {self.tam_refresco.get()}\nCosto: ${aux:.2f}\n'
+        self.ticket.insert(tk.END, f'{self.temp}\nTotal ${self.total:.2f}')
+        self.ticket.configure(state='disabled')
+
     def _Limpiar(self):
         self.ticket.configure(state='normal')
         self.ticket.delete(1.0, tk.END)
+        self.temp = ''
         self.total = 0.00
         self.caja_pelicula.current(0)
         self.caja_sala.current(0)
@@ -279,6 +315,13 @@ class Cliente(tk.Tk):
         self.b_refresco.set(0)
         self.b_acompanamiento.set(0)
         self.b_queso.set(0)
+        self.txt_num_acompanamiento.delete(0, tk.END)
+        self.txt_num_acompanamiento.configure(state='disabled')
+        self.txt_num_refrescos.delete(0, tk.END)
+        self.txt_num_refrescos.configure(state='disabled')
+        self.txt_num_palomitas.delete(0, tk.END)
+        self.txt_num_palomitas.configure(state='disabled')
+        self.txt_num_boletos.delete(0, tk.END)
         self.ticket.configure(state='disabled')
 
     def _Exit(self):
