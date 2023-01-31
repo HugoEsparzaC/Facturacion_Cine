@@ -1,6 +1,7 @@
 # importar librerias
 import tkinter as tk
 from tkinter import ttk, messagebox
+from PIL import Image, ImageTk
 from datetime import datetime
 import time
 
@@ -19,8 +20,12 @@ class Cliente(tk.Tk):
         self.pelicula = tk.StringVar()
         self.sala = tk.StringVar()
         self.palomitas = tk.StringVar()
+        self.palomitas1 = tk.StringVar()
+        self.palomitas2 = tk.StringVar()
         self.tam_palomitas = tk.StringVar()
         self.refresco = tk.StringVar()
+        self.refresco1 = tk.StringVar()
+        self.refresco2 = tk.StringVar()
         self.tam_refresco = tk.StringVar()
         self.acompanamiento = tk.StringVar()
         self.b_palomitas = tk.IntVar()
@@ -29,6 +34,27 @@ class Cliente(tk.Tk):
         self.b_queso = tk.IntVar()
         self.total = 0
         self.temp = ''
+
+        self.imagen_combo1 = Image.open('0212.png')
+        self.imagen_combo1 = self.imagen_combo1.resize((90, 90), Image.ANTIALIAS)
+        self.imagen_combo1 = ImageTk.PhotoImage(self.imagen_combo1)
+        self.b_combo1 = tk.IntVar()
+
+        self.imagen_combo2 = Image.open('0213.png')
+        self.imagen_combo2 = self.imagen_combo2.resize((90, 90), Image.ANTIALIAS)
+        self.imagen_combo2 = ImageTk.PhotoImage(self.imagen_combo2)
+        self.b_combo2 = tk.IntVar()
+
+        self.imagen_combo3 = Image.open('0214.png')
+        self.imagen_combo3 = self.imagen_combo3.resize((90, 90), Image.ANTIALIAS)
+        self.imagen_combo3 = ImageTk.PhotoImage(self.imagen_combo3)
+        self.b_combo3 = tk.IntVar()
+
+        self.imagen_combo4 = Image.open('0215.png')
+        self.imagen_combo4 = self.imagen_combo4.resize((90, 90), Image.ANTIALIAS)
+        self.imagen_combo4 = ImageTk.PhotoImage(self.imagen_combo4)
+        self.b_combo4 = tk.IntVar()
+
         self._creacion_componentes()
         self.actualizar_hora()
         self._Queso()
@@ -125,6 +151,50 @@ class Cliente(tk.Tk):
         # =============================================================================================
         # Combos
         # =============================================================================================
+        self.lbl_combo1 = tk.Checkbutton(ABC3, text='Combo 1', variable=self.b_combo1, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Activar_combo1)
+        self.lbl_combo1.grid(row=0, column=0, sticky='w')
+        self.lbl_combo2 = tk.Checkbutton(ABC3, text='Combo 2', variable=self.b_combo2, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Activar_combo1)
+        self.lbl_combo2.grid(row=0, column=1, sticky='w')
+        self.lbl_combo3 = tk.Checkbutton(ABC3, text='Combo 3', variable=self.b_combo3, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Activar_combo1)
+        self.lbl_combo3.grid(row=0, column=2, sticky='w')
+        self.lbl_combo4 = tk.Checkbutton(ABC3, text='Combo 4', variable=self.b_combo4, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Activar_combo1)
+        self.lbl_combo4.grid(row=0, column=3, sticky='w')
+
+        self.lbl_combo1 = tk.Label(ABC3, image=self.imagen_combo1)
+        self.lbl_combo1.grid(row=1, column=0)
+
+        self.lbl_combo1 = tk.Label(ABC3, image=self.imagen_combo2)
+        self.lbl_combo1.grid(row=1, column=1)
+
+        self.lbl_combo1 = tk.Label(ABC3, image=self.imagen_combo3)
+        self.lbl_combo1.grid(row=1, column=2)
+
+        self.lbl_combo1 = tk.Label(ABC3, image=self.imagen_combo4)
+        self.lbl_combo1.grid(row=1, column=3)
+        
+        self.lbl_Palomitas = tk.Label(ABC3, font=('arial', 14, 'bold'), text="Palomitas", padx=2, fg="black", bg='white').grid(row=4, column=0, columnspan=2, sticky='w')
+        self.caja_palomitas1 = ttk.Combobox(ABC3, textvariable=self.palomitas1, state='disabled', font=('arial', 12, 'bold'), width=20)
+        self.caja_palomitas1['value'] = ('', 'MANTEQUILLA', 'NATURALES', 'QUESO', 'ACARAMELADAS', 'VALENTINA', 'BUFALO')
+        self.caja_palomitas1.current(0)
+        self.caja_palomitas1.grid(row=5, column=0, columnspan=2)
+        self.caja_palomitas2 = ttk.Combobox(ABC3, textvariable=self.palomitas2, state='disabled', font=('arial', 12, 'bold'), width=20)
+        self.caja_palomitas2['value'] = ('', 'MANTEQUILLA', 'NATURALES', 'QUESO', 'ACARAMELADAS', 'VALENTINA', 'BUFALO')
+        self.caja_palomitas2.current(0)
+        self.caja_palomitas2.grid(row=6, column=0, columnspan=2)
+
+
+
+        self.lbl_Refrescos = tk.Label(ABC3, font=('arial', 14, 'bold'), text="Refrescos", padx=2, fg="black", bg='white').grid(row=4, column=2, columnspan=2, sticky='w')
+        self.caja_refresco1 = ttk.Combobox(ABC3, textvariable=self.refresco1, state='disabled', font=('arial', 12, 'bold'), width=20)
+        self.caja_refresco1['value'] = ('', 'COCA COLA', 'COCA COLA S/A', 'SPRITE', 'MANZANA', 'FANTA', 'FUZE TEA')
+        self.caja_refresco1.current(0)
+        self.caja_refresco1.grid(row=5, column=2, columnspan=2)
+        self.caja_refresco2 = ttk.Combobox(ABC3, textvariable=self.refresco2, state='disabled', font=('arial', 12, 'bold'), width=20)
+        self.caja_refresco2['value'] = ('', 'COCA COLA', 'COCA COLA S/A', 'SPRITE', 'MANZANA', 'FANTA', 'FUZE TEA')
+        self.caja_refresco2.current(0)
+        self.caja_refresco2.grid(row=6, column=2, columnspan=2)
+        
+        self.boton_Agregar_combo = tk.Button(ABC3, padx=0, pady=0, bd=5, fg='black', font=('arial', 12, 'bold'), width=1, height=1, bg='sky blue', text="Agregar Pedido", command=self._Agregar_combo).grid(row=7, column=0, columnspan=4, sticky='we')
 
         # =============================================================================================
         # Ticket
@@ -312,6 +382,60 @@ class Cliente(tk.Tk):
         self.txt_num_refrescos.configure(state='disabled')
         self.ticket.configure(state='disabled')
 
+    def _Agregar_combo(self):
+        if self.b_combo1.get() == 1:
+            self.ticket.configure(state='normal')
+            self.ticket.delete(1.0, tk.END)
+            self.total += 330.00
+            aux = 330.00
+            self.temp = self.temp + f'Maxicombo 1: Micha Mix:\n1 Palomitas PARA LLEVAR sabor: {self.palomitas1.get()}\n2 Refrescos tamaño Jumbo sabores: {self.refresco1.get()} y {self.refresco2.get()}\n1 Nachos\n1 Hot-Dog Jumbo\nCosto combo: ${aux:.2f}\n'
+        elif self.b_combo2.get() == 1:
+            self.ticket.configure(state='normal')
+            self.ticket.delete(1.0, tk.END)
+            self.total += 175.00
+            aux = 175.00
+            self.temp = self.temp + f'Combo 2: Cuates:\n1 Palomitas PARA LLEVAR sabor: {self.palomitas1.get()}\n2 Refrescos tamaño Jumbo sabores: {self.refresco1.get()} y {self.refresco2.get()}\nCosto combo: ${aux:.2f}\n'
+        elif self.b_combo3.get() == 1:
+            self.ticket.configure(state='normal')
+            self.ticket.delete(1.0, tk.END)
+            self.total += 225.00
+            aux = 225.00
+            self.temp = self.temp + f'Combo 3: Nachos en Pareja:\n1 Palomitas PARA LLEVAR sabor: {self.palomitas1.get()}\n2 Refrescos tamaño Jumbo sabores: {self.refresco1.get()} y {self.refresco2.get()}\n1 Nachos\nCosto combo: ${aux:.2f}\n'
+        elif self.b_combo4.get() == 1:
+            self.ticket.configure(state='normal')
+            self.ticket.delete(1.0, tk.END)
+            self.total += 235.00
+            aux = 235.00
+            self.temp = self.temp + f'Combo 4: Hot-Dog en Pareja:\n1 Palomitas PARA LLEVAR sabor: {self.palomitas1.get()}\n2 Refrescos tamaño Jumbo sabores: {self.refresco1.get()} y {self.refresco2.get()}\n1 Hot-Dog Jumbo\nCosto combo: ${aux:.2f}\n'
+        self.ticket.insert(tk.END, f'{self.temp}\nTotal ${self.total:.2f}')
+        self.caja_palomitas1.configure(state='disabled')
+        self.caja_palomitas1.current(0)
+        self.caja_palomitas2.configure(state='disabled')
+        self.caja_palomitas2.current(0)
+        self.caja_refresco1.configure(state='disabled')
+        self.caja_refresco1.current(0)
+        self.caja_refresco2.configure(state='disabled')
+        self.caja_refresco2.current(0)
+        self.b_combo1.set(0)
+        self.b_combo2.set(0)
+        self.b_combo3.set(0)
+        self.b_combo4.set(0)
+        self.ticket.configure(state='disabled')
+
+    def _Activar_combo1(self):
+        if self.b_combo1.get() == 1 or self.b_combo2.get() == 1 or self.b_combo3.get() == 1 or self.b_combo4.get() == 1:
+            self.caja_palomitas1.configure(state='readonly')
+            self.caja_refresco1.configure(state='readonly')
+            self.caja_refresco2.configure(state='readonly')
+        else:
+            self.caja_palomitas1.configure(state='disabled')
+            self.caja_palomitas1.current(0)
+            self.caja_refresco1.configure(state='disabled')
+            self.caja_refresco1.current(0)
+            self.caja_refresco2.configure(state='disabled')
+            self.caja_refresco2.current(0)
+
+
     def _Limpiar(self):
         self.ticket.configure(state='normal')
         self.ticket.delete(1.0, tk.END)
@@ -344,6 +468,19 @@ class Cliente(tk.Tk):
         self.b_queso.set(0)
         self.txt_num_acompanamiento.delete(0, tk.END)
         self.txt_num_acompanamiento.configure(state='disabled')
+        # Combos
+        self.caja_palomitas1.configure(state='disabled')
+        self.caja_palomitas1.current(0)
+        self.caja_palomitas2.configure(state='disabled')
+        self.caja_palomitas2.current(0)
+        self.caja_refresco1.configure(state='disabled')
+        self.caja_refresco1.current(0)
+        self.caja_refresco2.configure(state='disabled')
+        self.caja_refresco2.current(0)
+        self.b_combo1.set(0)
+        self.b_combo2.set(0)
+        self.b_combo3.set(0)
+        self.b_combo4.set(0)
         # Ticket
         self.ticket.configure(state='disabled')
 
