@@ -100,7 +100,6 @@ class Cliente(tk.Tk):
         self.lbl_acompanamiento = tk.Checkbutton(ABC2, text='Acompañamiento', variable=self.b_acompanamiento, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Acompanamiento).grid(row=9, sticky='w')
         self.txt_num_acompanamiento = tk.Entry(ABC2, font=('arial', 12, 'bold'), state='disabled', textvariable= self.num_acompanamientos, width=31, relief='solid')
         self.txt_num_acompanamiento.grid(row=9, column=1, pady=3)
-        
         self.caja_acompanamiento = ttk.Combobox(ABC2, textvariable=self.acompanamiento, state='disabled', font=('arial', 12, 'bold'), width=29)
         self.caja_acompanamiento['value'] = ('', 'NACHOS', 'HOT-DOG', 'HOT-DOG JUMBO', 'CHOCOLATE', 'HELADO', 'DULCES')
         self.caja_acompanamiento.current(0)
@@ -110,14 +109,9 @@ class Cliente(tk.Tk):
 
         self.boton_Agregar_Comida = tk.Button(ABC2, padx=0, pady=0, bd=5, fg='black', font=('arial', 12, 'bold'), width=1, height=1, bg='sky blue', text="Agregar Pedido", command=self._Agregar_Comida).grid(row=12, column=0, columnspan=2, sticky='we')
 
-
-
-
-
         self.lbl_refresco = tk.Checkbutton(ABC2, text='Refresco', variable=self.b_refresco, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Refresco).grid(row=13, sticky='w')
         self.txt_num_refrescos = tk.Entry(ABC2, font=('arial', 12, 'bold'), state='disabled', textvariable= self.num_refrescos, width=31, relief='solid')
         self.txt_num_refrescos.grid(row=13, column=1, pady=3)
-
         self.caja_refresco = ttk.Combobox(ABC2, textvariable=self.refresco, state='disabled', font=('arial', 12, 'bold'), width=29)
         self.caja_refresco['value'] = ('', 'COCA COLA', 'COCA COLA S/A', 'SPRITE', 'MANZANA', 'FANTA', 'FUZE TEA')
         self.caja_refresco.current(0)
@@ -126,6 +120,7 @@ class Cliente(tk.Tk):
         self.caja_tam_refresco['value'] = ('', 'CHICO', 'MEDIANO', 'GRANDE', 'JUMBO')
         self.caja_tam_refresco.current(0)
         self.caja_tam_refresco.grid(row=15, column=1, pady=3)
+
         self.boton_Agregar_Refresco = tk.Button(ABC2, padx=0, pady=0, bd=5, fg='black', font=('arial', 12, 'bold'), width=1, height=1, bg='sky blue', text="Agregar Pedido", command=self._Total).grid(row=16, column=0, columnspan=2, sticky='we')
         # =============================================================================================
         # Combos
@@ -137,7 +132,7 @@ class Cliente(tk.Tk):
         self.ticket = tk.Text(ABC5, height=25, width=43, bd=10, state = 'disabled', font=('arial', 9, 'bold'), wrap=tk.WORD)
         self.ticket.grid(row=0, column=0)
         # =============================================================================================
-        # Botones Total, limpiar, agregar pedido
+        # Botones Pagar, Cancelar, Salir
         # =============================================================================================
         self.boton_Total = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Pagar", command=self._Total).grid(row=0, column=0)
         self.boton_limpiar = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Cancelar", command=self._Limpiar).grid(row=0, column=1)
