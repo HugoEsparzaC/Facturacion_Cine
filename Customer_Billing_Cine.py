@@ -55,6 +55,11 @@ class Cliente(tk.Tk):
         self.imagen_combo4 = ImageTk.PhotoImage(self.imagen_combo4)
         self.b_combo4 = tk.IntVar()
 
+        self.imagen_combo5 = Image.open('0216.png')
+        self.imagen_combo5 = self.imagen_combo5.resize((90, 90), Image.ANTIALIAS)
+        self.imagen_combo5 = ImageTk.PhotoImage(self.imagen_combo5)
+        self.b_combo5 = tk.IntVar()
+
         self._creacion_componentes()
         self.actualizar_hora()
         self._Queso()
@@ -159,6 +164,8 @@ class Cliente(tk.Tk):
         self.lbl_combo3.grid(row=0, column=2, sticky='w')
         self.lbl_combo4 = tk.Checkbutton(ABC3, text='Combo 4', variable=self.b_combo4, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Activar_combo1)
         self.lbl_combo4.grid(row=0, column=3, sticky='w')
+        self.lbl_combo5 = tk.Checkbutton(ABC3, text='Combo 5', variable=self.b_combo5, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Activar_combo5)
+        self.lbl_combo5.grid(row=2, column=0, sticky='w')
 
         self.lbl_combo1 = tk.Label(ABC3, image=self.imagen_combo1)
         self.lbl_combo1.grid(row=1, column=0)
@@ -171,6 +178,9 @@ class Cliente(tk.Tk):
 
         self.lbl_combo1 = tk.Label(ABC3, image=self.imagen_combo4)
         self.lbl_combo1.grid(row=1, column=3)
+
+        self.lbl_combo5 = tk.Label(ABC3, image=self.imagen_combo1)
+        self.lbl_combo5.grid(row=3, column=0)
         
         self.lbl_Palomitas = tk.Label(ABC3, font=('arial', 14, 'bold'), text="Palomitas", padx=2, fg="black", bg='white').grid(row=4, column=0, columnspan=2, sticky='w')
         self.caja_palomitas1 = ttk.Combobox(ABC3, textvariable=self.palomitas1, state='disabled', font=('arial', 12, 'bold'), width=20)
@@ -181,8 +191,6 @@ class Cliente(tk.Tk):
         self.caja_palomitas2['value'] = ('', 'MANTEQUILLA', 'NATURALES', 'QUESO', 'ACARAMELADAS', 'VALENTINA', 'BUFALO')
         self.caja_palomitas2.current(0)
         self.caja_palomitas2.grid(row=6, column=0, columnspan=2)
-
-
 
         self.lbl_Refrescos = tk.Label(ABC3, font=('arial', 14, 'bold'), text="Refrescos", padx=2, fg="black", bg='white').grid(row=4, column=2, columnspan=2, sticky='w')
         self.caja_refresco1 = ttk.Combobox(ABC3, textvariable=self.refresco1, state='disabled', font=('arial', 12, 'bold'), width=20)
@@ -407,6 +415,12 @@ class Cliente(tk.Tk):
             self.total += 235.00
             aux = 235.00
             self.temp = self.temp + f'Combo 4: Hot-Dog en Pareja:\n1 Palomitas PARA LLEVAR sabor: {self.palomitas1.get()}\n2 Refrescos tamaño Jumbo sabores: {self.refresco1.get()} y {self.refresco2.get()}\n1 Hot-Dog Jumbo\nCosto combo: ${aux:.2f}\n'
+        elif self.b_combo5.get() == 1:
+            self.ticket.configure(state='normal')
+            self.ticket.delete(1.0, tk.END)
+            self.total += 275.00
+            aux = 275.00
+            self.temp = self.temp + f'Combo 4: Hot-Dog en Pareja:\n2 Palomitas PARA LLEVAR sabores: {self.palomitas1.get()} y {self.palomitas2.get()}\n2 Refrescos tamaño Jumbo sabores: {self.refresco1.get()} y {self.refresco2.get()}\n1 Dulces\nCosto combo: ${aux:.2f}\n'
         self.ticket.insert(tk.END, f'{self.temp}\nTotal ${self.total:.2f}')
         self.caja_palomitas1.configure(state='disabled')
         self.caja_palomitas1.current(0)
@@ -420,6 +434,7 @@ class Cliente(tk.Tk):
         self.b_combo2.set(0)
         self.b_combo3.set(0)
         self.b_combo4.set(0)
+        self.b_combo5.set(00)
         self.ticket.configure(state='disabled')
 
     def _Activar_combo1(self):
@@ -430,6 +445,22 @@ class Cliente(tk.Tk):
         else:
             self.caja_palomitas1.configure(state='disabled')
             self.caja_palomitas1.current(0)
+            self.caja_refresco1.configure(state='disabled')
+            self.caja_refresco1.current(0)
+            self.caja_refresco2.configure(state='disabled')
+            self.caja_refresco2.current(0)
+    
+    def _Activar_combo5(self):
+        if self.b_combo5.get() == 1:
+            self.caja_palomitas1.configure(state='readonly')
+            self.caja_palomitas2.configure(state='readonly')
+            self.caja_refresco1.configure(state='readonly')
+            self.caja_refresco2.configure(state='readonly')
+        else:
+            self.caja_palomitas1.configure(state='disabled')
+            self.caja_palomitas1.current(0)
+            self.caja_palomitas2.configure(state='disabled')
+            self.caja_palomitas2.current(0)
             self.caja_refresco1.configure(state='disabled')
             self.caja_refresco1.current(0)
             self.caja_refresco2.configure(state='disabled')
@@ -481,6 +512,7 @@ class Cliente(tk.Tk):
         self.b_combo2.set(0)
         self.b_combo3.set(0)
         self.b_combo4.set(0)
+        self.b_combo5.set(0)
         # Ticket
         self.ticket.configure(state='disabled')
 
