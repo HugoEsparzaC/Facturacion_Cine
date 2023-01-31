@@ -179,28 +179,28 @@ class Cliente(tk.Tk):
         self.lbl_combo1 = tk.Label(ABC3, image=self.imagen_combo4)
         self.lbl_combo1.grid(row=1, column=3)
 
-        self.lbl_combo5 = tk.Label(ABC3, image=self.imagen_combo1)
+        self.lbl_combo5 = tk.Label(ABC3, image=self.imagen_combo5)
         self.lbl_combo5.grid(row=3, column=0)
         
         self.lbl_Palomitas = tk.Label(ABC3, font=('arial', 14, 'bold'), text="Palomitas", padx=2, fg="black", bg='white').grid(row=4, column=0, columnspan=2, sticky='w')
         self.caja_palomitas1 = ttk.Combobox(ABC3, textvariable=self.palomitas1, state='disabled', font=('arial', 12, 'bold'), width=20)
         self.caja_palomitas1['value'] = ('', 'MANTEQUILLA', 'NATURALES', 'QUESO', 'ACARAMELADAS', 'VALENTINA', 'BUFALO')
         self.caja_palomitas1.current(0)
-        self.caja_palomitas1.grid(row=5, column=0, columnspan=2)
+        self.caja_palomitas1.grid(row=5, column=0, columnspan=2, pady=10)
         self.caja_palomitas2 = ttk.Combobox(ABC3, textvariable=self.palomitas2, state='disabled', font=('arial', 12, 'bold'), width=20)
         self.caja_palomitas2['value'] = ('', 'MANTEQUILLA', 'NATURALES', 'QUESO', 'ACARAMELADAS', 'VALENTINA', 'BUFALO')
         self.caja_palomitas2.current(0)
-        self.caja_palomitas2.grid(row=6, column=0, columnspan=2)
+        self.caja_palomitas2.grid(row=6, column=0, columnspan=2, pady=10)
 
         self.lbl_Refrescos = tk.Label(ABC3, font=('arial', 14, 'bold'), text="Refrescos", padx=2, fg="black", bg='white').grid(row=4, column=2, columnspan=2, sticky='w')
         self.caja_refresco1 = ttk.Combobox(ABC3, textvariable=self.refresco1, state='disabled', font=('arial', 12, 'bold'), width=20)
         self.caja_refresco1['value'] = ('', 'COCA COLA', 'COCA COLA S/A', 'SPRITE', 'MANZANA', 'FANTA', 'FUZE TEA')
         self.caja_refresco1.current(0)
-        self.caja_refresco1.grid(row=5, column=2, columnspan=2)
+        self.caja_refresco1.grid(row=5, column=2, columnspan=2, pady=10)
         self.caja_refresco2 = ttk.Combobox(ABC3, textvariable=self.refresco2, state='disabled', font=('arial', 12, 'bold'), width=20)
         self.caja_refresco2['value'] = ('', 'COCA COLA', 'COCA COLA S/A', 'SPRITE', 'MANZANA', 'FANTA', 'FUZE TEA')
         self.caja_refresco2.current(0)
-        self.caja_refresco2.grid(row=6, column=2, columnspan=2)
+        self.caja_refresco2.grid(row=6, column=2, columnspan=2, pady=10)
         
         self.boton_Agregar_combo = tk.Button(ABC3, padx=0, pady=0, bd=5, fg='black', font=('arial', 12, 'bold'), width=1, height=1, bg='sky blue', text="Agregar Pedido", command=self._Agregar_combo).grid(row=7, column=0, columnspan=4, sticky='we')
 
