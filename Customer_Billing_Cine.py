@@ -16,7 +16,6 @@ class Cliente(tk.Tk):
         self.num_palomitas = tk.StringVar()
         self.num_refrescos = tk.StringVar()
         self.num_acompanamientos = tk.StringVar()
-        self.nombre = tk.StringVar()
         self.pelicula = tk.StringVar()
         self.sala = tk.StringVar()
         self.palomitas = tk.StringVar()
@@ -29,6 +28,7 @@ class Cliente(tk.Tk):
         self.b_acompanamiento = tk.IntVar()
         self.b_queso = tk.IntVar()
         self.total = 0
+        self.temp = ''
         self._creacion_componentes()
         self.actualizar_hora()
         self._Queso()
@@ -79,14 +79,13 @@ class Cliente(tk.Tk):
         self.caja_sala.current(0)
         self.caja_sala.grid(row=3, column=1, pady=3)
 
-        self.boton_Agregar_Pelicula = tk.Button(ABC2, padx=0, pady=0, bd=5, fg='black', font=('arial', 12, 'bold'), width=1, height=1, bg='sky blue', text="Agregar Pedido", command=self._Total).grid(row=4, column=0, columnspan=2, sticky='we')
+        self.boton_Agregar_Pelicula = tk.Button(ABC2, padx=0, pady=0, bd=5, fg='black', font=('arial', 12, 'bold'), width=1, height=1, bg='sky blue', text="Agregar Pedido", command=self._Agregar_Pelicula).grid(row=4, column=0, columnspan=2, sticky='we')
         # =============================================================================================
         # Palomitas, Refresco y acompanamiento (agregar cantidades de cada uno)
         # =============================================================================================
         self.lbl_Comida = tk.Label(ABC2, font=('arial', 16, 'bold'), text="Comida", padx=2, fg="black", bg='white').grid(row=5, column=0, sticky='w')
         self.lbl_palomitas = tk.Checkbutton(ABC2, text='Palomitas', variable=self.b_palomitas, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', command=self._Palomitas)
         self.lbl_palomitas.grid(row=6, sticky='w')
-        self.lbl_num_palomitas = tk.Label(ABC2, font=('arial', 12, 'bold'), text="Número de palomitas:", padx=2, fg="black", bg='white').grid(row=1, column=0, sticky='w')
         self.txt_num_palomitas = tk.Entry(ABC2, font=('arial', 12, 'bold'), textvariable= self.num_palomitas, width=31, relief='solid')
         self.txt_num_palomitas.grid(row=6, column=1, pady=3)
         self.caja_palomitas = ttk.Combobox(ABC2, textvariable=self.palomitas, state='disabled', font=('arial', 12, 'bold'), width=29)
@@ -109,7 +108,7 @@ class Cliente(tk.Tk):
         self.lbl_queso = tk.Checkbutton(ABC2, text='Queso extra', variable=self.b_queso, onvalue=1, offvalue=0, font=('arial', 12, 'bold'), bg='white', state='disabled', command=self._Queso)
         self.lbl_queso.grid(row=11, column=1, sticky='w')
 
-        self.boton_Agregar_Comida = tk.Button(ABC2, padx=0, pady=0, bd=5, fg='black', font=('arial', 12, 'bold'), width=1, height=1, bg='sky blue', text="Agregar Pedido", command=self._Total).grid(row=12, column=0, columnspan=2, sticky='we')
+        self.boton_Agregar_Comida = tk.Button(ABC2, padx=0, pady=0, bd=5, fg='black', font=('arial', 12, 'bold'), width=1, height=1, bg='sky blue', text="Agregar Pedido", command=self._Agregar_Comida).grid(row=12, column=0, columnspan=2, sticky='we')
 
 
 
@@ -141,7 +140,7 @@ class Cliente(tk.Tk):
         # Botones Total, limpiar, agregar pedido
         # =============================================================================================
         self.boton_Total = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Total", command=self._Total).grid(row=0, column=0)
-        self.boton_limpiar = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Limpiar", command=self._Limpiar).grid(row=0, column=1)
+        self.boton_limpiar = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Cancelar", command=self._Limpiar).grid(row=0, column=1)
         self.boton_salir = tk.Button(ABC6, padx=14, pady=7, bd=5, fg='black', font=('arial', 16, 'bold'), width=5, height=2, bg='white', text="Salir", command=self._Exit).grid(row=0, column=2)
 
     def actualizar_hora(self):
@@ -184,100 +183,84 @@ class Cliente(tk.Tk):
             self.lbl_queso.configure(state='disabled')
 
     def _Total(self):
+        pass
+
+    def _Agregar_Pelicula(self):
         self.ticket.configure(state='normal')
         self.ticket.delete(1.0, tk.END)
-        self.total = 0.00
-        # =============================================================================================
-        # Costo Pelicula
-        # =============================================================================================
-        self.ticket.insert(
-            tk.END,
-            f'''Cuenta de {self.nombre.get()}
-
-Pelicula: {self.pelicula.get()}
-      Sala: {self.sala.get()}
-''')
+        self.temp = self.temp + f'{self.num_boletos.get()} boletos\nPelicula: {self.pelicula.get()}\nSala: {self.sala.get()}\n'
         if self.sala.get() == 'SENCILLA':
-            self.total += 50.00
-            self.ticket.insert(tk.END, f'      Costo boleto: ${self.total:.2f}\n')
+            self.total += float(self.num_boletos.get()) * 50.00
+            aux = float(self.num_boletos.get()) * 50.00
+            self.temp = self.temp + f'Costo boletos: ${aux:.2f}\n'
         else:
-            self.total += 90.00
-            self.ticket.insert(tk.END, f'      Costo boleto: ${self.total:.2f}\n')
+            self.total += float(self.num_boletos.get()) * 90.00
+            aux = float(self.num_boletos.get()) * 90.00
+            self.temp = self.temp + f'Costo boletos: ${aux:.2f}\n'
+        self.ticket.insert(tk.END, f'{self.temp}\nTotal ${self.total:.2f}')
+        self.ticket.configure(state='disabled')
+
+    def _Agregar_Comida(self):
+        self.ticket.configure(state='normal')
         # =============================================================================================
         # Costo Palomitas
         # =============================================================================================
         if self.b_palomitas:
             if self.tam_palomitas.get() == 'CHICA':
-                self.total += 30
-                self.ticket.insert(tk.END, f'Palomitas:\n      Sabor: {self.palomitas.get()}\n      Tamaño: {self.tam_palomitas.get()}\n      Costo: $30.00\n')
+                self.total += float(self.num_palomitas.get()) * 30
+                aux = float(self.num_palomitas.get()) * 30
+                self.ticket.insert(tk.END, f'{self.num_palomitas.get()} Palomitas:\n      Sabor: {self.palomitas.get()}\n      Tamaño: {self.tam_palomitas.get()}\n      Costo: ${aux:.2f}\n')
             elif self.tam_palomitas.get() == 'MEDIANA':
-                self.total += 40
-                self.ticket.insert(tk.END, f'Palomitas:\n      Sabor: {self.palomitas.get()}\n      Tamaño: {self.tam_palomitas.get()}\n      Costo: $40.00\n')
+                self.total += float(self.num_palomitas.get()) * 40
+                aux = float(self.num_palomitas.get()) * 40
+                self.ticket.insert(tk.END, f'{self.num_palomitas.get()} Palomitas:\n      Sabor: {self.palomitas.get()}\n      Tamaño: {self.tam_palomitas.get()}\n      Costo: ${aux:.2f}\n')
             elif self.tam_palomitas.get() == 'GRANDE':
-                self.total += 50
-                self.ticket.insert(tk.END, f'Palomitas:\n      Sabor: {self.palomitas.get()}\n      Tamaño: {self.tam_palomitas.get()}\n      Costo: $50.00\n')
+                self.total += float(self.num_palomitas.get()) * 50
+                aux = float(self.num_palomitas.get()) * 50
+                self.ticket.insert(tk.END, f'{self.num_palomitas.get()} Palomitas:\n      Sabor: {self.palomitas.get()}\n      Tamaño: {self.tam_palomitas.get()}\n      Costo: ${aux:.2f}\n')
             elif self.tam_palomitas.get() == 'PARA LLEVAR':
-                self.total += 60
-                self.ticket.insert(tk.END, f'Palomitas:\n      Sabor: {self.palomitas.get()}\n      Tamaño: {self.tam_palomitas.get()}\n      Costo: $60.00\n')
-            else:
-                self.ticket.insert(tk.END, f'Palomitas: N/A\n')
-        # =============================================================================================
-        # Costo Refresco
-        # =============================================================================================
-        if self.b_refresco:
-            if self.tam_refresco.get() == 'CHICO':
-                self.total += 30
-                self.ticket.insert(tk.END, f'Refresco:\n      Sabor: {self.refresco.get()}\n      Tamaño: {self.tam_refresco.get()}\n      Costo: $30.00\n')
-            elif self.tam_refresco.get() == 'MEDIANO':
-                self.total += 40
-                self.ticket.insert(tk.END, f'Refresco:\n      Sabor: {self.refresco.get()}\n      Tamaño: {self.tam_refresco.get()}\n      Costo: $40.00\n')
-            elif self.tam_refresco.get() == 'GRANDE':
-                self.total += 50
-                self.ticket.insert(tk.END, f'Refresco:\n      Sabor: {self.refresco.get()}\n      Tamaño: {self.tam_refresco.get()}\n      Costo: $50.00\n')
-            elif self.tam_refresco.get() == 'JUMBO':
-                self.total += 60
-                self.ticket.insert(tk.END, f'Refresco:\n      Sabor: {self.refresco.get()}\n      Tamaño: {self.tam_refresco.get()}\n      Costo: $60.00\n')
-            else:
-                self.ticket.insert(tk.END, f'Refresco: N/A\n')
+                self.total += float(self.num_palomitas.get()) * 60
+                aux = float(self.num_palomitas.get()) * 60
+                self.ticket.insert(tk.END, f'{self.num_palomitas.get()} Palomitas:\n      Sabor: {self.palomitas.get()}\n      Tamaño: {self.tam_palomitas.get()}\n      Costo: ${aux:.2f}\n')
         # =============================================================================================
         # Costo Acompanamientos
         # =============================================================================================
         if self.b_acompanamiento:
             if self.acompanamiento.get() == 'NACHOS':
                 if self.b_queso.get():
-                    self.total += 50
-                    self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Queso extra: 5.00\n      Costo: $50.00\n')
+                    self.total += float(self.num_acompanamientos.get()) * 50
+                    aux = float(self.num_acompanamientos.get()) * 50
+                    self.ticket.insert(tk.END, f'{self.num_acompanamientos.get()} Acompañamientos:\n      Acompañamiento: {self.acompanamiento.get()}\n      Queso extra: 5.00\n      Costo: ${aux:.2f}\n')
                 else:
-                    self.total += 45
-                    self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: $45.00\n')
+                    self.total += float(self.num_acompanamientos.get()) * 45
+                    aux = float(self.num_acompanamientos.get()) * 45
+                    self.ticket.insert(tk.END, f'{self.num_acompanamientos.get()} Acompañamientos:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: ${aux:.2f}\n')
             elif self.acompanamiento.get() == 'HOT-DOG':
-                self.total += 45
-                self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: $45.00\n')
+                self.total += float(self.num_acompanamientos.get()) * 45
+                aux = float(self.num_acompanamientos.get()) * 45
+                self.ticket.insert(tk.END, f'{self.num_acompanamientos.get()} Acompañamientos:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: ${aux:.2f}\n')
             elif self.acompanamiento.get() == 'HOT-DOG JUMBO':
-                self.total += 70
-                self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: $70.00\n')
+                self.total += float(self.num_acompanamientos.get()) * 70
+                aux = float(self.num_acompanamientos.get()) * 70
+                self.ticket.insert(tk.END, f'{self.num_acompanamientos.get()} Acompañamientos:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: ${aux:.2f}\n')
             elif self.acompanamiento.get() == 'CHOCOLATE':
-                self.total += 30
-                self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: $30.00\n')
+                self.total += float(self.num_acompanamientos.get()) * 30
+                aux = float(self.num_acompanamientos.get()) * 30
+                self.ticket.insert(tk.END, f'{self.num_acompanamientos.get()} Acompañamientos:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: ${aux:.2f}\n')
             elif self.acompanamiento.get() == 'HELADO':
-                self.total += 45
-                self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: $45.00\n')
+                self.total += float(self.num_acompanamientos.get()) * 45
+                aux = float(self.num_acompanamientos.get()) * 45
+                self.ticket.insert(tk.END, f'{self.num_acompanamientos.get()} Acompañamientos:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: ${aux:.2f}\n')
             elif self.acompanamiento.get() == 'DULCES':
-                self.total += 25
-                self.ticket.insert(tk.END, f'Acompañamiento:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: $25.00\n')
-            else:
-                self.ticket.insert(tk.END, f'Acompañamiento: N/A\n')
-        # =============================================================================================
-        # Costo Total
-        # =============================================================================================
-        self.ticket.insert(tk.END, f'\n\n\nTotal a Pagar: ${self.total:.2f}')
+                self.total += float(self.num_acompanamientos.get()) * 25
+                aux = float(self.num_acompanamientos.get()) * 25
+                self.ticket.insert(tk.END, f'{self.num_acompanamientos.get()} Acompañamientos:\n      Acompañamiento: {self.acompanamiento.get()}\n      Costo: ${aux:.2f}\n')
         self.ticket.configure(state='disabled')
 
     def _Limpiar(self):
         self.ticket.configure(state='normal')
         self.ticket.delete(1.0, tk.END)
         self.total = 0.00
-        self.txt_cliente.delete(0, tk.END)
         self.caja_pelicula.current(0)
         self.caja_sala.current(0)
         self.caja_palomitas.configure(state='disabled')
